@@ -1,0 +1,7 @@
+<core:FragmentDefinition 
+    xmlns:core="sap.ui.core" 
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:macros="sap.fe.macros" >
+    <macros:Field id="MyField" metaPath="name" />
+</core:FragmentDefinition>

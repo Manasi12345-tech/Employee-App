@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "employee-display": {
+            "additionalInformation": "SAPUI5.Component=demo.employee",
+            "applicationType": "URL",
+            "url": "../resources/demo.employee"
+        },
+        "project2-display": {
+            "additionalInformation": "SAPUI5.Component=project2",
+            "applicationType": "URL",
+            "url": "../resources/project2"
+        }
+    }
+}

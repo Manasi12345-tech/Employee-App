@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout">
+    <HBox alignItems="Center" core:require="{handler: 'project1/ext/controller/CustomNameFilter'}" width="100%">
+        <RatingIndicator id="MyCustomRatingIndicatorId" value="{path: 'name', type: 'sap.fe.macros.filter.type.MultiValue',formatOptions: { operator: 'EQ' }}" />
+        <core:Icon src="sap-icon://reset" press="handler.onReset" class="sapUiSmallMarginBegin" />
+    </HBox>
+</core:FragmentDefinition>

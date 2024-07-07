@@ -1,0 +1,6 @@
+
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout">
+    <l:VerticalLayout >
+        <Link core:require="{handler: 'project1/ext/controller/CustomActionButton'}" text='Click here' press="handler.onClickNavigate"/>
+    </l:VerticalLayout>
+</core:FragmentDefinition>

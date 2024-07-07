@@ -1,0 +1,647 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="Departmentalservice">
+            <EntityType Name="Companies">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="address" Type="Edm.String"/>
+                <Property Name="mobile" Type="Edm.String"/>
+                <Property Name="email" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Department">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="code" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="description" Type="Edm.String"/>
+                <NavigationProperty Name="employees" Type="Collection(Departmentalservice.Employees)" Partner="department">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Employees">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="identifier" Type="Edm.Int32"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="birthDate" Type="Edm.Date"/>
+                <Property Name="address" Type="Edm.String"/>
+                <Property Name="mobile" Type="Edm.Int32"/>
+                <Property Name="email" Type="Edm.String"/>
+                <Property Name="collegeName" Type="Edm.String"/>
+                <Property Name="startYear" Type="Edm.Date"/>
+                <Property Name="endYear" Type="Edm.Date"/>
+                <Property Name="isActive" Type="Edm.Boolean"/>
+                <Property Name="isInActive" Type="Edm.Boolean"/>
+                <Property Name="isHideActivateButton" Type="Edm.Boolean"/>
+                <Property Name="isHideDeactivateButton" Type="Edm.Boolean"/>
+                <Property Name="rating" Type="Edm.Int32"/>
+                <Property Name="role_ID" Type="Edm.String"/>
+                <Property Name="status_ID" Type="Edm.Int32"/>
+                <Property Name="company_ID" Type="Edm.Int32"/>
+                <Property Name="department_code" Type="Edm.String" MaxLength="5"/>
+                <NavigationProperty Name="role" Type="Departmentalservice.Roles">
+                    <ReferentialConstraint Property="role_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="status" Type="Departmentalservice.Statuses">
+                    <ReferentialConstraint Property="status_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="company" Type="Departmentalservice.Companies">
+                    <ReferentialConstraint Property="company_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="skills" Type="Collection(Departmentalservice.Skills)" Partner="parentID">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="department" Type="Departmentalservice.Department" Partner="employees">
+                    <ReferentialConstraint Property="department_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Roles">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="texts" Type="Collection(Departmentalservice.Roles_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="Departmentalservice.Roles_texts">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Roles_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" Nullable="false" MaxLength="14"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Skills">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="rating" Type="Edm.Int32"/>
+                <Property Name="startLearningTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="endLearningTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="parentID_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="parentID" Type="Departmentalservice.Employees" Partner="skills">
+                    <ReferentialConstraint Property="parentID_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Statuses">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <NavigationProperty Name="texts" Type="Collection(Departmentalservice.Statuses_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="Departmentalservice.Statuses_texts">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Statuses_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" Nullable="false" MaxLength="14"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+            </EntityType>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Companies" EntityType="Departmentalservice.Companies"/>
+                <EntitySet Name="Department" EntityType="Departmentalservice.Department">
+                    <NavigationPropertyBinding Path="employees" Target="Employees"/>
+                </EntitySet>
+                <EntitySet Name="Employees" EntityType="Departmentalservice.Employees">
+                    <NavigationPropertyBinding Path="role" Target="Roles"/>
+                    <NavigationPropertyBinding Path="status" Target="Statuses"/>
+                    <NavigationPropertyBinding Path="company" Target="Companies"/>
+                    <NavigationPropertyBinding Path="skills" Target="Skills"/>
+                    <NavigationPropertyBinding Path="department" Target="Department"/>
+                </EntitySet>
+                <EntitySet Name="Roles" EntityType="Departmentalservice.Roles">
+                    <NavigationPropertyBinding Path="texts" Target="Roles_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Roles_texts"/>
+                </EntitySet>
+                <EntitySet Name="Roles_texts" EntityType="Departmentalservice.Roles_texts"/>
+                <EntitySet Name="Skills" EntityType="Departmentalservice.Skills">
+                    <NavigationPropertyBinding Path="parentID" Target="Employees"/>
+                </EntitySet>
+                <EntitySet Name="Statuses" EntityType="Departmentalservice.Statuses">
+                    <NavigationPropertyBinding Path="texts" Target="Statuses_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Statuses_texts"/>
+                </EntitySet>
+                <EntitySet Name="Statuses_texts" EntityType="Departmentalservice.Statuses_texts"/>
+            </EntityContainer>
+            <Annotations Target="Departmentalservice.Companies">
+                <Annotation Term="Communication.Contact">
+                    <Record Type="Communication.ContactType">
+                        <PropertyValue Property="email">
+                            <Collection>
+                                <Record Type="Communication.EmailAddressType">
+                                    <PropertyValue Property="type">
+                                        <EnumMember>Communication.ContactInformationType/work</EnumMember>
+                                    </PropertyValue>
+                                    <PropertyValue Property="address">
+                                        <Path>email</Path>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="fn">
+                            <Path>name</Path>
+                        </PropertyValue>
+                        <PropertyValue Property="tel">
+                            <Collection>
+                                <Record Type="Communication.PhoneNumberType">
+                                    <PropertyValue Property="uri">
+                                        <Path>mobile</Path>
+                                    </PropertyValue>
+                                    <PropertyValue Property="type">
+                                        <EnumMember>Communication.PhoneType/cell</EnumMember>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="Communication.PhoneNumberType">
+                                    <PropertyValue Property="uri">
+                                        <Path>email</Path>
+                                    </PropertyValue>
+                                    <PropertyValue Property="type">
+                                        <EnumMember>Communication.PhoneType/fax</EnumMember>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="QuickView">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>address</Path>
+                                    </PropertyValue>
+                                    <PropertyValue Property="Label">
+                                        <String>Address</String>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>mobile</Path>
+                                    </PropertyValue>
+                                    <PropertyValue Property="Label">
+                                        <String>Mobile</String>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>email</Path>
+                                    </PropertyValue>
+                                    <PropertyValue Property="Label">
+                                        <String>Email ID</String>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value">
+                                    <Path>name</Path>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="ImageUrl">
+                            <String>sap-icon://offsite-work</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value">
+                                    <Path>ID</Path>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="TypeName">
+                            <String>Company</String>
+                        </PropertyValue>
+                        <PropertyValue Property="TypeNamePlural">
+                            <String>Companies</String>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.QuickViewFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@Communication.Contact</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label">
+                                <String>Company Details</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.FieldGroup#QuickView</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Companies/ID">
+                <Annotation Term="Common.Label">
+                    <String>ID</String>
+                </Annotation>
+                <Annotation Term="Common.Text">
+                    <Path>name</Path>
+                    <Annotation Term="UI.TextArrangement">
+                        <EnumMember>UI.TextArrangementType/TextFirst</EnumMember>
+                    </Annotation>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Companies/name">
+                <Annotation Term="Common.Label">
+                    <String>Name</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Companies/address">
+                <Annotation Term="Common.Label">
+                    <String>Address</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Companies/mobile">
+                <Annotation Term="Common.Label">
+                    <String>Mobile</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Companies/email">
+                <Annotation Term="Common.Label">
+                    <String>Email ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/createdAt">
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/createdBy">
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>User's unique ID</String>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/modifiedAt">
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/modifiedBy">
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>User's unique ID</String>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/isActive">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/isInActive">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/isHideActivateButton">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/isHideDeactivateButton">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/role_ID">
+                <Annotation Term="Common.ValueListWithFixedValues">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label">
+                            <String>Roles</String>
+                        </PropertyValue>
+                        <PropertyValue Property="CollectionPath">
+                            <String>Roles</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty">
+                                        <PropertyPath>role_ID</PropertyPath>
+                                    </PropertyValue>
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>ID</String>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>name</String>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/status_ID">
+                <Annotation Term="Common.ValueListMapping">
+                    <Record Type="Common.ValueListMappingType">
+                        <PropertyValue Property="CollectionPath">
+                            <String>Statuses</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Label">
+                            <String>Status</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>ID</String>
+                                    </PropertyValue>
+                                    <PropertyValue Property="LocalDataProperty">
+                                        <PropertyPath>status_ID</PropertyPath>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>name</String>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.ValueListWithFixedValues">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Employees/company_ID">
+                <Annotation Term="Common.ValueListMapping">
+                    <Record Type="Common.ValueListMappingType">
+                        <PropertyValue Property="CollectionPath">
+                            <String>Companies</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Label">
+                            <String>Company</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>ID</String>
+                                    </PropertyValue>
+                                    <PropertyValue Property="LocalDataProperty">
+                                        <PropertyPath>company_ID</PropertyPath>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>name</String>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>address</String>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty">
+                                        <String>mobile</String>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>name</Path>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles/name">
+                <Annotation Term="Common.Label">
+                    <String>Role</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles/descr">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles/ID">
+                <Annotation Term="Common.Label">
+                    <String>ID</String>
+                </Annotation>
+                <Annotation Term="Common.Text">
+                    <Path>ID</Path>
+                    <Annotation Term="UI.TextArrangement">
+                        <EnumMember>UI.TextArrangementType/TextOnly</EnumMember>
+                    </Annotation>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles_texts/name">
+                <Annotation Term="Common.Label">
+                    <String>Role</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles_texts/descr">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Roles_texts/ID">
+                <Annotation Term="Common.Label">
+                    <String>ID</String>
+                </Annotation>
+                <Annotation Term="Common.Text">
+                    <Path>ID</Path>
+                    <Annotation Term="UI.TextArrangement">
+                        <EnumMember>UI.TextArrangementType/TextOnly</EnumMember>
+                    </Annotation>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Skills/createdAt">
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Skills/createdBy">
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>User's unique ID</String>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Skills/modifiedAt">
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Skills/modifiedBy">
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>User's unique ID</String>
+                </Annotation>
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Statuses/ID">
+                <Annotation Term="Common.Label">
+                    <String>ID</String>
+                </Annotation>
+                <Annotation Term="Common.Text">
+                    <Path>name</Path>
+                    <Annotation Term="UI.TextArrangement">
+                        <EnumMember>UI.TextArrangementType/TextOnly</EnumMember>
+                    </Annotation>
+                </Annotation>
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Statuses/name">
+                <Annotation Term="Common.Label">
+                    <String>Status</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Statuses_texts/ID">
+                <Annotation Term="Common.Label">
+                    <String>ID</String>
+                </Annotation>
+                <Annotation Term="Common.Text">
+                    <Path>name</Path>
+                    <Annotation Term="UI.TextArrangement">
+                        <EnumMember>UI.TextArrangementType/TextOnly</EnumMember>
+                    </Annotation>
+                </Annotation>
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="Departmentalservice.Statuses_texts/name">
+                <Annotation Term="Common.Label">
+                    <String>Status</String>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
